@@ -1,0 +1,22 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Clone') {
+            steps {
+                git 'https://github.com/vitalyl1343/go-hello'
+            }
+        }
+        stage('Build') {
+            steps {
+                script {
+                    docker.build('vitalyl1343/hello')
+                    // безопасно храним токен для докерхаба
+                    docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-creds') {
+                        docker.image('vitalyl1343/hello').push(version)
+                    }
+                }
+            }
+        }
+    }
+}
