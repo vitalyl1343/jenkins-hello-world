@@ -13,7 +13,7 @@ pipeline {
 
                     def Dockerfile = 'java-hello-project/demo/demo/Dockerfile'
                     def context = "java-hello-project/demo/demo"
-
+                    sh "whoami"
                     sh "docker build -t vitalyl1343/hello-java -f ${Dockerfile} ${context}"
                     withCredentials([usernamePassword(credentialsId: 'docker-hub-creds', usernameVariable: 'dockerhub_username', passwordVariable: 'dockerhub_password')]) {
                         sh "docker login -u ${dockerhub_username} -p ${dockerhub_password}"
